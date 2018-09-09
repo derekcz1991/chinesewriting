@@ -1,0 +1,4 @@
+<resources>
+    <!-- 通用 -->
+    <dimen name="paint_width">12dp</dimen>
+</resources>
