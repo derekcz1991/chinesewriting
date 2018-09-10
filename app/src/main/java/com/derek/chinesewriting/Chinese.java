@@ -8,11 +8,7 @@ public class Chinese {
     private @IdRes int idResBack;
     private float rate;
 
-    public Chinese(int idRes) {
-        this.idRes = idRes;
-    }
-
-    public Chinese(int idRes, int idResBack, float rate) {
+    public Chinese(int idRes, int idResBack, int gif, float rate) {
         this.idRes = idRes;
         this.idResBack = idResBack;
         this.rate = rate;

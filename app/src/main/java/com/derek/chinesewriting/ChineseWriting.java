@@ -1,11 +1,13 @@
 package com.derek.chinesewriting;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +39,10 @@ public class ChineseWriting extends AppCompatActivity {
     private TextView rateView;
     private View loading;
     private View btn;
+    private SimpleDraweeView mSimpleDraweeView;
 
     private List<Chinese> chineseList;
+    private List<Integer> gifList;
     private int curIndex;
 
     private Bitmap bitmap;
@@ -45,6 +53,8 @@ public class ChineseWriting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Fresco.initialize(this);
 
         setContentView(R.layout.activity_fullscreen);
 
@@ -57,6 +67,7 @@ public class ChineseWriting extends AppCompatActivity {
         rateView = findViewById(R.id.rate);
         loading = findViewById(R.id.loading);
         btn = findViewById(R.id.btn);
+        mSimpleDraweeView = findViewById(R.id.gif_view);
 
         initData();
 
@@ -129,7 +140,13 @@ public class ChineseWriting extends AppCompatActivity {
                             rateView.setText(String.valueOf(rate));
                             if (rate > chineseList.get(curIndex).getRate()) {
                                 //Toast.makeText(ChineseWriting.this, "Good !", Toast.LENGTH_SHORT).show();
-                                next();
+                                //next();
+                                DraweeController controller = Fresco.newDraweeControllerBuilder()
+                                    .setUri(Uri.parse("res://com.derek.chinesewriting/" + gifList.get(curIndex)))
+                                    .setAutoPlayAnimations(true)
+                                    .build();
+                                mSimpleDraweeView.setController(controller);
+                                mSimpleDraweeView.setVisibility(View.VISIBLE);
                             } else {
                                 Toast.makeText(ChineseWriting.this, "Not complete yet", Toast.LENGTH_SHORT).show();
                             }
@@ -154,21 +171,38 @@ public class ChineseWriting extends AppCompatActivity {
 
     private void initData() {
         chineseList = new ArrayList<>();
-        chineseList.add(new Chinese(R.mipmap.image1, R.mipmap.image01, 0.5f));
-        chineseList.add(new Chinese(R.mipmap.image2, R.mipmap.image02, 0.8f));
-        chineseList.add(new Chinese(R.mipmap.image3, R.mipmap.image03, 0.5f));
-        chineseList.add(new Chinese(R.mipmap.image4, R.mipmap.image04, 0.48f));
-        chineseList.add(new Chinese(R.mipmap.image5, R.mipmap.image05, 0.57f));
-        chineseList.add(new Chinese(R.mipmap.image6, R.mipmap.image06, 0.53f));
-        chineseList.add(new Chinese(R.mipmap.image7, R.mipmap.image07, 0.3f));
-        chineseList.add(new Chinese(R.mipmap.image8, R.mipmap.image08, 0.78f));
-        chineseList.add(new Chinese(R.mipmap.image9, R.mipmap.image09, 0.8f));
-        chineseList.add(new Chinese(R.mipmap.image10, R.mipmap.image010, 0.7f));
-        chineseList.add(new Chinese(R.mipmap.image11, R.mipmap.image011, 0.58f));
-        chineseList.add(new Chinese(R.mipmap.image12, R.mipmap.image012, 0.36f));
-        chineseList.add(new Chinese(R.mipmap.image13, R.mipmap.image013, 0.72f));
-        chineseList.add(new Chinese(R.mipmap.image14, R.mipmap.image014, 0.3f));
-        chineseList.add(new Chinese(R.mipmap.image15, R.mipmap.image015, 0.73f));
+        chineseList.add(new Chinese(R.mipmap.image1, R.mipmap.image01, R.mipmap.j1, 0.25f));
+        chineseList.add(new Chinese(R.mipmap.image2, R.mipmap.image02, R.mipmap.j2, 0.4f));
+        chineseList.add(new Chinese(R.mipmap.image3, R.mipmap.image03, R.mipmap.j3, 0.3f));
+        chineseList.add(new Chinese(R.mipmap.image4, R.mipmap.image04, R.mipmap.j4, 0.25f));
+        chineseList.add(new Chinese(R.mipmap.image5, R.mipmap.image05, R.mipmap.j5, 0.27f));
+        chineseList.add(new Chinese(R.mipmap.image6, R.mipmap.image06, R.mipmap.j6, 0.29f));
+        chineseList.add(new Chinese(R.mipmap.image7, R.mipmap.image07, R.mipmap.j7, 0.15f));
+        chineseList.add(new Chinese(R.mipmap.image8, R.mipmap.image08, R.mipmap.j8, 0.4f));
+        chineseList.add(new Chinese(R.mipmap.image9, R.mipmap.image09, R.mipmap.j9, 0.38f));
+        chineseList.add(new Chinese(R.mipmap.image10, R.mipmap.image010, R.mipmap.j10, 0.35f));
+        chineseList.add(new Chinese(R.mipmap.image11, R.mipmap.image011, R.mipmap.j11, 0.27f));
+        chineseList.add(new Chinese(R.mipmap.image12, R.mipmap.image012, R.mipmap.j12, 0.2f));
+        chineseList.add(new Chinese(R.mipmap.image13, R.mipmap.image013, R.mipmap.j13, 0.39f));
+        chineseList.add(new Chinese(R.mipmap.image14, R.mipmap.image014, R.mipmap.j14, 0.17f));
+        chineseList.add(new Chinese(R.mipmap.image15, R.mipmap.image015, R.mipmap.j15, 0.34f));
+
+        gifList = new ArrayList<>();
+        gifList.add(R.mipmap.j1);
+        gifList.add(R.mipmap.j2);
+        gifList.add(R.mipmap.j3);
+        gifList.add(R.mipmap.j4);
+        gifList.add(R.mipmap.j5);
+        gifList.add(R.mipmap.j6);
+        gifList.add(R.mipmap.j7);
+        gifList.add(R.mipmap.j8);
+        gifList.add(R.mipmap.j9);
+        gifList.add(R.mipmap.j10);
+        gifList.add(R.mipmap.j11);
+        gifList.add(R.mipmap.j12);
+        gifList.add(R.mipmap.j13);
+        gifList.add(R.mipmap.j14);
+        gifList.add(R.mipmap.j15);
     }
 
     private void next() {
@@ -182,6 +216,7 @@ public class ChineseWriting extends AppCompatActivity {
         reset();
         imageView.setImageResource(chineseList.get(curIndex).getIdRes());
         imageViewBack.setImageResource(chineseList.get(curIndex).getIdResBack());
+        mSimpleDraweeView.setVisibility(View.INVISIBLE);
         targetSize = 0;
         targetSizeView.setText("0");
     }
@@ -198,6 +233,7 @@ public class ChineseWriting extends AppCompatActivity {
     private boolean checkOuterWriting() {
         boolean isOuter = false;
 
+        imageViewBack.setDrawingCacheEnabled(true);
         bitmap = imageViewBack.getDrawingCache();
         for (int i = 0; i < canvas.getPathList().size(); i++) {
             Point point = canvas.getPathList().get(i);
